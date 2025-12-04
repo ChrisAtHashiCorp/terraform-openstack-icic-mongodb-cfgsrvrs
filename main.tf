@@ -26,6 +26,7 @@ locals {
   user-data = templatefile("${path.module}/provision/cloud-init.yml.tftpl",
     {
       mongod-config = local.mongod-config
+      replicaset-config = local.replicaset-config
     }
   )
 }
