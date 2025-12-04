@@ -16,6 +16,13 @@ locals {
     }
   )
 
+  replicaset-config = templatefile("${path.module}/provision/replicaset-cfg.js.tftpl",
+    {
+      cluster_id = random_id.cluster_id.hex
+      nodes = { for k in range(var.node_count): k => local.fqdns[k.value] }
+    }
+  )
+
   user-data = templatefile("${path.module}/provision/cloud-init.yml.tftpl",
     {
       mongod-config = local.mongod-config

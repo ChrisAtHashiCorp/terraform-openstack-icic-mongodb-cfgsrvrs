@@ -1,0 +1,10 @@
+rs.initiate(
+  {
+    _id: "cfg-${cluster_id}",
+    configsvr: true,
+    members: [
+      %{ for k, v in nodes }
+      {_id : ${k}, host: "${v}" },
+      %{ endfor ~}]
+  }
+)

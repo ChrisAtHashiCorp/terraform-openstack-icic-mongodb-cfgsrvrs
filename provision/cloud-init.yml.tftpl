@@ -11,6 +11,12 @@ write_files:
     content: |
       ${indent(6, mongod-config)}
 
+write_files:
+  - path: /tmp/replicaset-cfg.js
+    defer: true
+    content: |
+      ${indent(6, replicaset-config)}
+
 runcmd:
   - update-ca-trust
   - systemctl daemon-reload
