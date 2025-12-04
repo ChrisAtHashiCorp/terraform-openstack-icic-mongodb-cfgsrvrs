@@ -6,7 +6,7 @@ chpasswd:
   expire: false
 
 write_files:
-  - path: /etc/mongod.conf
+  - path: /tmp/mongod.conf
     defer: true
     content: |
       ${indent(6, mongod-config)}
