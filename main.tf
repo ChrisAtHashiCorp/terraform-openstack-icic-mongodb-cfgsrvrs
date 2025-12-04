@@ -46,7 +46,7 @@ resource "openstack_compute_instance_v2" "nodes" {
 # Add static entries for DNS on nodes
 
 locals {
-  hosts_file      = [for i in range(var.node_count) : "${openstack_compute_instance_v2.nodes[i].access_ip_v4} ${i}"]
+  hosts_file      = [for i in range(var.node_count) : "${openstack_compute_instance_v2.nodes[i].access_ip_v4} ${local.fqdns[i]}"]
   hosts_file_cmds = [for i in local.hosts_file : "echo \"${i}\" | sudo tee -a /etc/hosts"]
 }
 
