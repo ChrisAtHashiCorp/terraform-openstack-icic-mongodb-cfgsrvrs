@@ -5,6 +5,12 @@ password: HashiPass123!
 chpasswd:
   expire: false
 
+write_files:
+  - path: /etc/mongod.conf
+    defer: true
+    content: |
+      ${indent(6, mongod-config)}
+
 runcmd:
   - update-ca-trust
   - systemctl daemon-reload

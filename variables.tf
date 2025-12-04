@@ -26,7 +26,7 @@ variable "network" {
 }
 
 variable "sshkey_prefix" {
-  type = string
+  type    = string
   default = "mongodb"
 }
 

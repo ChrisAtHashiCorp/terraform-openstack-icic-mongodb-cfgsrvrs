@@ -8,15 +8,19 @@ resource "random_id" "node_id" {
 }
 
 locals {
-  fqdns = [ for i in range(var.node_count) : "${var.name_prefix}-${random_id.node_id[i].hex}.${var.domain}" ]
+  fqdns = [for i in range(var.node_count) : "${var.name_prefix}-${random_id.node_id[i].hex}.${var.domain}"]
 
   mongod-config = templatefile("${path.module}/provision/mongod.conf.tftpl",
-                    {
-                      cluster_id = random_id.cluster_id.hex
-                    }
-                  )
+    {
+      cluster_id = random_id.cluster_id.hex
+    }
+  )
 
-  user-data = templatefile("${path.module}/provision/cloud-init.yml.tftpl", {})
+  user-data = templatefile("${path.module}/provision/cloud-init.yml.tftpl",
+    {
+      mongod-config = local.mongod-config
+    }
+  )
 }
 
 resource "openstack_compute_keypair_v2" "sshkey" {
