@@ -46,18 +46,18 @@ resource "openstack_compute_instance_v2" "nodes" {
 # Add static entries for DNS on nodes
 
 locals {
-  hosts_file      = [for i in local.fqdns : "${openstack_compute_instance_v2.nodes[i].access_ip_v4} ${i}"]
+  hosts_file      = [for i in range(var.node_count) : "${openstack_compute_instance_v2.nodes[i].access_ip_v4} ${i}"]
   hosts_file_cmds = [for i in local.hosts_file : "echo \"${i}\" | sudo tee -a /etc/hosts"]
 }
 
 resource "ssh_resource" "node-hostfile" {
-  for_each = toset(local.fqdns)
+  count = var.node_count
 
   bastion_host     = var.ssh_bastion.host
   bastion_user     = var.ssh_bastion.user
   bastion_password = var.ssh_bastion.password
 
-  host     = openstack_compute_instance_v2.nodes[each.key].access_ip_v4
+  host     = openstack_compute_instance_v2.nodes[count.index].access_ip_v4
   user     = var.ssh_conn.user
   password = var.ssh_conn.password
 
