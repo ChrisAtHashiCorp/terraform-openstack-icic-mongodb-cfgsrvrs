@@ -8,18 +8,15 @@ resource "random_id" "node_id" {
 }
 
 locals {
-  fqdns = [for i in range(var.node_count) : "${var.name_prefix}-${random_id.node_id[i].hex}.${var.domain}"]
+  fqdns = [ for i in range(var.node_count) : "${var.name_prefix}-${random_id.node_id[i].hex}.${var.domain}" ]
 
-  mongod-config = {
-    for fqdn in local.fqdns : fqdn => templatefile("${path.module}/provision/mongod.conf.tftpl",
-      {
-        cluster_id = random_id.cluster_id.hex
-      }
-    )
-  }
-  user-data = {
-    for fqdn in local.fqdns : fqdn => templatefile("${path.module}/provision/cloud-init.yml.tftpl", {})
-  }
+  mongod-config = templatefile("${path.module}/provision/mongod.conf.tftpl",
+                    {
+                      cluster_id = random_id.cluster_id.hex
+                    }
+                  )
+
+  user-data = templatefile("${path.module}/provision/cloud-init.yml.tftpl", {})
 }
 
 resource "openstack_compute_keypair_v2" "sshkey" {
@@ -27,13 +24,13 @@ resource "openstack_compute_keypair_v2" "sshkey" {
 }
 
 resource "openstack_compute_instance_v2" "nodes" {
-  for_each = toset(local.fqdns)
+  count = var.node_count
 
-  name        = each.value
+  name        = local.fqdns[count.index]
   image_id    = var.image_id
   flavor_name = var.flavor
   key_pair    = openstack_compute_keypair_v2.sshkey.name
-  user_data   = local.user-data[each.key]
+  user_data   = local.user-data
 
   network {
     name = var.network
