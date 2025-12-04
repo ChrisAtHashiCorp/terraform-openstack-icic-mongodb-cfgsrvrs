@@ -7,11 +7,11 @@
 systemLog:
   destination: file
   logAppend: true
-  path: /opt/mongo/configlog/mongod.log
+  path: /var/log/mongodb/mongod.log
  
 # Where and how to store data.
 storage:
-  dbPath: /opt/mongo/configdb
+  dbPath: /var/lib/mongo
  
 # how the process runs
 processManagement:
