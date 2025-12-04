@@ -1,0 +1,12 @@
+#cloud-config
+ssh_pwauth: true
+disable_root: false
+password: HashiPass123!
+chpasswd:
+  expire: false
+
+runcmd:
+  - update-ca-trust
+  - systemctl daemon-reload
+  - systemctl enable --now mongod.service
+  - systemctl enable --now httpd.service

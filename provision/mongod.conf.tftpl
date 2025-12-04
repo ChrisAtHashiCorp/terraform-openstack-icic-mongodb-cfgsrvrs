@@ -1,0 +1,30 @@
+# mongod.conf
+ 
+# for documentation of all options, see:
+#   http://docs.mongodb.org/manual/reference/configuration-options/
+ 
+# where to write logging data.
+systemLog:
+  destination: file
+  logAppend: true
+  path: /opt/mongo/configlog/mongod.log
+ 
+# Where and how to store data.
+storage:
+  dbPath: /opt/mongo/configdb
+ 
+# how the process runs
+processManagement:
+  timeZoneInfo: /usr/share/zoneinfo
+  fork: true
+ 
+# network interfaces
+net:
+  port: 37019
+  bindIp: ::,0.0.0.0
+ 
+sharding:
+  clusterRole: configsvr
+ 
+replication:
+  replSetName: cfg-${cluster_id}
