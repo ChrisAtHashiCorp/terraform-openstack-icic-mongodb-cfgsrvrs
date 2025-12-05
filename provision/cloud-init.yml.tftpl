@@ -11,7 +11,6 @@ write_files:
     defer: true
     content: ${mongod-config}
 
-write_files:
   - path: /tmp/replicaset-cfg.js
     encoding: b64
     defer: true
