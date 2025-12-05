@@ -10,11 +10,12 @@ resource "random_id" "node_id" {
 locals {
   fqdns = [for i in range(var.node_count) : "${var.name_prefix}-${random_id.node_id[i].hex}.${var.domain}"]
 
-  mongod-config = templatefile("${path.module}/provision/mongod.conf.tftpl",
+  mongod-config = [for i in range(var.node_count) : templatefile("${path.module}/provision/mongod.conf.tftpl",
     {
+      fqdn       = local.fqdns[i]
       cluster_id = random_id.cluster_id.hex
     }
-  )
+  )]
 
   replicaset-config = templatefile("${path.module}/provision/replicaset-cfg.js.tftpl",
     {
@@ -23,12 +24,12 @@ locals {
     }
   )
 
-  user-data = templatefile("${path.module}/provision/cloud-init.yml.tftpl",
+  user-data = [for i in range(var.node_count) : templatefile("${path.module}/provision/cloud-init.yml.tftpl",
     {
-      mongod-config     = base64encode(local.mongod-config)
+      mongod-config     = base64encode(local.mongod-config[i])
       replicaset-config = base64encode(local.replicaset-config)
     }
-  )
+  )]
 }
 
 resource "openstack_compute_keypair_v2" "sshkey" {
