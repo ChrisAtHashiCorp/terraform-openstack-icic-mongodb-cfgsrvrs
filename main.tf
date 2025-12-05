@@ -50,7 +50,7 @@ resource "openstack_compute_instance_v2" "nodes" {
     name = var.network
   }
 
-  tags = ["cluster_id:${random_id.cluster_id.hex},managed:terraform"]
+  tags = ["cluster_id=${random_id.cluster_id.hex}", "managed=terraform"]
 
   lifecycle {
     ignore_changes = [user_data]
