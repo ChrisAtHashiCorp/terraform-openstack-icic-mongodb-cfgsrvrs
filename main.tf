@@ -79,3 +79,19 @@ resource "ssh_resource" "node-hostfile" {
 
   commands = local.hosts_file_cmds
 }
+
+# Create Replica Set
+
+resource "ssh_resource" "init-replicaset" {
+  bastion_host     = var.ssh_bastion.host
+  bastion_user     = var.ssh_bastion.user
+  bastion_password = var.ssh_bastion.password
+
+  host     = openstack_compute_instance_v2.nodes[0].access_ip_v4
+  user     = var.ssh_conn.user
+  password = var.ssh_conn.password
+
+  timeout = "30s"
+
+  commands = ["mongosh --port 37019 /tmp/replicaset-cfg.js"]
+}
