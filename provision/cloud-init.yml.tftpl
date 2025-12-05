@@ -24,3 +24,4 @@ runcmd:
   - systemctl restart mongod.service
   - systemctl enable --now httpd.service
   - systemctl daemon-reload
+  - setenforce Permissive
