@@ -94,4 +94,6 @@ resource "ssh_resource" "init-replicaset" {
   timeout = "30s"
 
   commands = ["mongosh --port 37019 /tmp/replicaset-cfg.js"]
+
+  depends_on = [ ssh_resource.node-hostfile ]
 }
