@@ -6,16 +6,16 @@ chpasswd:
   expire: false
 
 write_files:
-  - path: /tmp/mongod.conf
+  - path: /etc/mongod.conf
+    encoding: b64
     defer: true
-    content: |
-      ${indent(6, mongod-config)}
+    content: ${mongod-config}
 
 write_files:
   - path: /tmp/replicaset-cfg.js
+    encoding: b64
     defer: true
-    content: |
-      ${indent(6, replicaset-config)}
+    content: ${replicaset-config}
 
 runcmd:
   - update-ca-trust
