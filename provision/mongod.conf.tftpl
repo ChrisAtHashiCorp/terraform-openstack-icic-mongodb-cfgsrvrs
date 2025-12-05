@@ -19,9 +19,13 @@ processManagement:
   fork: true
  
 # network interfaces
+
+setParameter:
+   disableSplitHorizonIPCheck: true
+
 net:
   port: 37019
-  bindIp: ::,0.0.0.0,127.0.0.1,${fqdn}
+  bindIp: localhost,${fqdn}
  
 sharding:
   clusterRole: configsvr

@@ -21,5 +21,6 @@ write_files:
 runcmd:
   - update-ca-trust
   - systemctl daemon-reload
-  - systemctl enable --now mongod.service
+  - systemctl enable mongod.service
+  - systemctl restart mongod.service
   - systemctl enable --now httpd.service
