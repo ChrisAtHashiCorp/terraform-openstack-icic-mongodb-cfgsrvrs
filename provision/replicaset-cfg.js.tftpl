@@ -4,7 +4,7 @@ rs.initiate(
     configsvr: true,
     members: [
       %{ for k, v in nodes }
-      {_id : ${k}, host: "${v}" },
+      {_id : ${k}, host: "${v}:37019" },
       %{ endfor ~}]
   }
 )

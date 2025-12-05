@@ -20,7 +20,7 @@ write_files:
 
 runcmd:
   - update-ca-trust
-  - systemctl daemon-reload
   - systemctl enable mongod.service
   - systemctl restart mongod.service
   - systemctl enable --now httpd.service
+  - systemctl daemon-reload
