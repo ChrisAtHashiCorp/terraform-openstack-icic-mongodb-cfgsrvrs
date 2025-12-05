@@ -44,7 +44,7 @@ resource "openstack_compute_instance_v2" "nodes" {
   image_id    = var.image_id
   flavor_name = var.flavor
   key_pair    = openstack_compute_keypair_v2.sshkey.name
-  user_data   = local.user-data
+  user_data   = local.user-data[count.index]
 
   network {
     name = var.network
