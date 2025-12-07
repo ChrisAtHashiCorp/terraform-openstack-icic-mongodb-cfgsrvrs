@@ -58,7 +58,7 @@ resource "openstack_compute_instance_v2" "nodes" {
   user_data   = local.user-data[count.index]
 
   network {
-    port = openstack_networking_port_v2.port[count.index]
+    port = openstack_networking_port_v2.port[count.index].device_id
   }
 
   tags = ["cluster_id=${random_id.cluster_id.hex}", "managed=terraform"]
