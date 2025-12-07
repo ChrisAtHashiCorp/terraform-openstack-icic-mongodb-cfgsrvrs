@@ -41,6 +41,13 @@ data "openstack_networking_network_v2" "network" {
   name = var.network
 }
 
+resource "openstack_networking_port_v2" "port" {
+  count = var.node_count
+
+  name  = "port-${count.index}"
+  network_id = data.openstack_networking_network_v2.network
+}
+
 resource "openstack_compute_instance_v2" "nodes" {
   count = var.node_count
 
@@ -51,7 +58,7 @@ resource "openstack_compute_instance_v2" "nodes" {
   user_data   = local.user-data[count.index]
 
   network {
-    name = var.network
+    port = openstack_networking_port_v2.port[count.index]
   }
 
   tags = ["cluster_id=${random_id.cluster_id.hex}", "managed=terraform"]
