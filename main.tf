@@ -45,7 +45,7 @@ resource "openstack_networking_port_v2" "port" {
   count = var.node_count
 
   name  = "port-${count.index}"
-  network_id = data.openstack_networking_network_v2.network
+  network_id = data.openstack_networking_network_v2.network.id
 }
 
 resource "openstack_compute_instance_v2" "nodes" {
