@@ -37,6 +37,10 @@ resource "openstack_compute_keypair_v2" "sshkey" {
   name = "${var.sshkey_prefix}-${random_id.cluster_id.hex}"
 }
 
+data "openstack_networking_network_v2" "network" {
+  name = var.network
+}
+
 resource "openstack_compute_instance_v2" "nodes" {
   count = var.node_count
 
