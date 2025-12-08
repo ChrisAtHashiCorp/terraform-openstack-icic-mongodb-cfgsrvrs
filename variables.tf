@@ -18,7 +18,7 @@ variable "image_id" {
 
 variable "flavor" {
   type    = string
-  default = "tiny"
+  default = "small"
 }
 
 variable "network" {
