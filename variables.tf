@@ -36,7 +36,7 @@ variable "ssh_conn" {
     user     = optional(string, "root")
     password = optional(string, "HashiPass123")
   })
-  default = {}
+  default = {user = "root", password = "HashiPass123!"}
 }
 
 variable "ssh_bastion" {
