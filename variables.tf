@@ -33,8 +33,8 @@ variable "sshkey_prefix" {
 variable "ssh_conn" {
   sensitive = true
   type = object({
-    user     = optional(string, "almalinux")
-    password = optional(string, null)
+    user     = optional(string, "root")
+    password = optional(string, "HashiPass123")
   })
   default = {}
 }
